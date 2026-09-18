@@ -4,6 +4,7 @@ import com.gameexpert.player.dto.CreatePlayerRequest;
 import com.gameexpert.player.dto.CreatePlayerResponse;
 import com.gameexpert.player.service.PlayerService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class PlayerController {
     // TODO Lv 3: API 명세에 맞게 요청을 매핑하고, 검증한 요청으로 등록 서비스를 호출한 뒤 성공 응답을 반환합니다.
     @PostMapping("/players")
     public ResponseEntity<CreatePlayerResponse> create(@RequestBody @Valid CreatePlayerRequest request) {
-        return ResponseEntity.ok(playerService.createPlayer(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(playerService.createPlayer(request));
 
     }
 }
