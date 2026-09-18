@@ -1,5 +1,6 @@
 package com.gameexpert.player.service;
 
+import com.gameexpert.player.dto.CreatePlayerResponse;
 import com.gameexpert.player.repository.PlayerRepository;
 
 import org.springframework.stereotype.Service;
@@ -18,9 +19,11 @@ public class PlayerService {
     private final PlayerRepository playerRepository;
 
     @Transactional
-    public void createPlayer(CreatePlayerRequest request) {
+    public CreatePlayerResponse createPlayer(CreatePlayerRequest request) {
         // TODO Lv 3: 닉네임 중복을 확인하고 플레이어를 저장합니다.
-        throw new UnsupportedOperationException("Lv 3: 플레이어 등록을 구현하세요.");
+        Player player = new Player(request.getNickname());
+        savePlayer(player);
+        return new CreatePlayerResponse(player.getId(), player.getNickname(), player.getCreatedAt());
     }
 
     private void savePlayer(Player player) {
