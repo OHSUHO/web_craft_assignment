@@ -21,5 +21,29 @@ public class MoveWsHandler implements WsMessageHandler {
     public void handle(WsMessageContext context, JsonNode message) {
         String finalSceneActionId = WsFields.optionalFinalSceneActionId(message);
         // TODO Lv 12: 명세의 이동 값을 읽어 현재 사용자의 이동 요청을 엔진에 전달합니다.
+        double direction_x = WsFields.finiteNumber(message, "x");
+        double direction_y = WsFields.finiteNumber(message, "y");
+        double direction_z = WsFields.finiteNumber(message, "z");
+        float yaw = WsFields.finiteFloat(message, "yaw");
+        float pitch = WsFields.finiteFloat(message, "pitch");
+        boolean crouching = WsFields.booleanValue(message, "crouching");
+        boolean gliding = WsFields.booleanValue(message, "gliding");
+
+
+        PlayerAction pa = new PlayerAction.Move(
+                context.nickname(),
+                direction_x,
+                direction_y,
+                direction_z,
+                yaw,
+                pitch,
+                crouching,
+                gliding,
+                finalSceneActionId
+        );
+
+        engineManager.enqueue(context.worldId(), pa);
+
+
     }
 }
